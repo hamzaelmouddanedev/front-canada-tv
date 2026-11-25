@@ -4,7 +4,6 @@ import { getI18n } from "@/lib/locale";
 import type { HomePage } from "@/lib/sanity/types";
 import { btnOutline, btnPrimary } from "@/lib/ui";
 import { HeroTitle } from "@/components/HeroText";
-import heroImage from "@/public/candaherosection.jpeg";
 
 export async function Hero({ home }: { home: HomePage }) {
   const { ui, tr, href } = await getI18n();
@@ -14,14 +13,13 @@ export async function Hero({ home }: { home: HomePage }) {
   return (
     <section id="hero" className="relative isolate flex min-h-screen items-center overflow-hidden">
       <Image
-        src={heroImage}
+        src="/candaherosection.jpeg"
         alt={ui.alt.hero}
         fill
         // LCP image: load immediately at high priority (`priority` is deprecated in Next 16 and
         // emits a preload without fetchpriority). The <img> is in the SSR HTML, so it's discovered at once.
         loading="eager"
         fetchPriority="high"
-        placeholder="blur"
         sizes="100vw"
         className="-z-20 object-cover"
       />

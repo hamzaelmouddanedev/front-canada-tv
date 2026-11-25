@@ -3,7 +3,7 @@ import { sectionLabel, sectionSubCenter } from "@/lib/ui";
 type Props = { label?: string; title: string; sub?: string };
 
 const bg =
-  "bg-[image:radial-gradient(ellipse_at_20%_0%,rgb(0_147_213/0.18)_0%,transparent_55%),linear-gradient(135deg,rgb(220_20_60/0.72)_0%,rgb(92_75_138/0.75)_50%,rgb(13_8_16/0.94)_100%),url('/candaherosection.jpeg')] bg-cover bg-center bg-no-repeat";
+  "bg-[image:radial-gradient(ellipse_at_20%_0%,rgb(0_147_213/0.18)_0%,transparent_55%),linear-gradient(135deg,rgb(220_20_60/0.72)_0%,rgb(92_75_138/0.75)_50%,rgb(13_8_16/0.94)_100%),url('/_opt/candaherosection-1264.webp')] bg-cover bg-center bg-no-repeat";
 
 export function PageHero({ label, title, sub }: Props) {
   return (

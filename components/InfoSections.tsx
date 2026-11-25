@@ -7,7 +7,6 @@ import { getI18n } from "@/lib/locale";
 import { hasImage, urlFor } from "@/lib/sanity/image";
 import type { InfoSection } from "@/lib/sanity/types";
 import { featureIcon, infoCard, infoCardHover, section, sectionLabel, sectionSub, sectionTitle } from "@/lib/ui";
-import sectionImage from "@/public/canda_infosection.jpeg";
 
 type Feature = { icon?: string; text: string };
 
@@ -73,9 +72,10 @@ export async function InfoSections({ sections, features, id = "about", leaves = 
                 />
               ) : (
                 <Image
-                  src={sectionImage}
+                  src="/canda_infosection.jpeg"
                   alt={alt}
-                  placeholder="blur"
+                  width={1024}
+                  height={1024}
                   sizes="(max-width: 768px) 100vw, 600px"
                   className="block h-auto w-full rounded-[20px]"
                 />
