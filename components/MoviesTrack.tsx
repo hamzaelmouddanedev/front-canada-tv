@@ -18,31 +18,53 @@ export function MoviesTrack({ movies }: { movies: Movie[] }) {
     if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let raf = 0;
+    let visible = false;
+    const last: number[] = []; // last applied emphasis per poster
     const tick = () => {
+      raf = 0;
+      // Read every rect first, then write styles: interleaving reads and writes forces
+      // a synchronous layout per poster (Lighthouse "forced reflow").
       const box = el.getBoundingClientRect();
       const cx = box.left + box.width / 2;
       const reach = Math.min(260, box.width / 2);
+      const nodes = items.current;
+      const centers = nodes.map((f) => {
+        if (!f) return null;
+        const r = f.getBoundingClientRect();
+        return r.left + r.width / 2;
+      });
       let best = -1;
       let bestIdx = 0;
-      items.current.forEach((f, i) => {
-        if (!f) return;
-        const r = f.getBoundingClientRect();
-        const d = Math.abs(r.left + r.width / 2 - cx);
-        const t = Math.max(0, 1 - d / reach);
-        const e = t * t * (3 - 2 * t);
-        f.style.transform = `scale(${1 + 0.4 * e})`;
-        f.style.zIndex = String(Math.round(e * 10));
-        f.style.filter = `brightness(${0.7 + 0.3 * e})`;
+      nodes.forEach((f, i) => {
+        const c = centers[i];
+        if (!f || c == null) return;
+        const t = Math.max(0, 1 - Math.abs(c - cx) / reach);
+        // Rounded so posters far from the centre (most of them) skip style writes entirely.
+        const e = Math.round(t * t * (3 - 2 * t) * 1000) / 1000;
         if (e > best) {
           best = e;
           bestIdx = i;
         }
+        if (last[i] === e) return;
+        last[i] = e;
+        f.style.transform = `scale(${1 + 0.4 * e})`;
+        f.style.zIndex = String(Math.round(e * 10));
+        f.style.filter = `brightness(${0.7 + 0.3 * e})`;
       });
       if (best > 0) setActive(bestIdx % movies.length);
-      if (!reduce) raf = requestAnimationFrame(tick);
+      if (!reduce && visible) raf = requestAnimationFrame(tick);
     };
-    tick();
-    return () => cancelAnimationFrame(raf);
+    // Only run while the track is on screen; the first callback also gives an initial
+    // frame without measuring during hydration.
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !raf) raf = requestAnimationFrame(tick);
+    });
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, [movies.length]);
 
   return (

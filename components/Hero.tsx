@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getI18n } from "@/lib/locale";
 import type { HomePage } from "@/lib/sanity/types";
 import { btnOutline, btnPrimary } from "@/lib/ui";
-import { HeroReveal, HeroTitle } from "@/components/HeroText";
+import { HeroTitle } from "@/components/HeroText";
 import heroImage from "@/public/candaherosection.jpeg";
 
 export async function Hero({ home }: { home: HomePage }) {
@@ -17,7 +17,10 @@ export async function Hero({ home }: { home: HomePage }) {
         src={heroImage}
         alt={ui.alt.hero}
         fill
-        priority
+        // LCP image: load immediately at high priority (`priority` is deprecated in Next 16 and
+        // emits a preload without fetchpriority). The <img> is in the SSR HTML, so it's discovered at once.
+        loading="eager"
+        fetchPriority="high"
         placeholder="blur"
         sizes="100vw"
         className="-z-20 object-cover"
@@ -32,7 +35,8 @@ export async function Hero({ home }: { home: HomePage }) {
         </div>
 
         <HeroTitle text={title} className="mb-[1.4rem] text-[clamp(2rem,5vw,3.6rem)] leading-[1.25] font-black text-white" />
-        <HeroReveal>
+        {/* Paragraph, buttons and stats fade/slide in one after another (CSS: .hero-reveal in globals.css). */}
+        <div className="hero-reveal">
         <p className="mb-[2.4rem] max-w-[580px] text-[1.08rem] leading-[1.9] text-fg">
           {desc.split(" ").map((w, i) => (
             <span
@@ -62,7 +66,7 @@ export async function Hero({ home }: { home: HomePage }) {
             </div>
           ))}
         </div>
-        </HeroReveal>
+        </div>
       </div>
     </section>
   );

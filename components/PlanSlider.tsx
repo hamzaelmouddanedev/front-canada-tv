@@ -5,11 +5,18 @@ import { useEffect, useRef, useState } from "react";
 export function PlanSlider({ children, prev, next }: { children: React.ReactNode; prev: string; next: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Start with the middle card centered in view.
+  // Start with the middle card centered in view. Measured inside a ResizeObserver callback,
+  // which runs after layout, so reading offsets doesn't force a synchronous reflow.
   useEffect(() => {
     const el = ref.current;
     const mid = el?.children[Math.floor(el.children.length / 2)] as HTMLElement | undefined;
-    if (el && mid) el.scrollLeft = mid.offsetLeft - (el.clientWidth - mid.offsetWidth) / 2;
+    if (!el || !mid) return;
+    const ro = new ResizeObserver(() => {
+      ro.disconnect();
+      el.scrollLeft = mid.offsetLeft - (el.clientWidth - mid.offsetWidth) / 2;
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   const scroll = (dir: 1 | -1) => {

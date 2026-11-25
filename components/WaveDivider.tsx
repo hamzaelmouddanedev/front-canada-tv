@@ -1,7 +1,4 @@
-"use client";
-
-import { gsap } from "gsap";
-import { useEffect, useId, useRef } from "react";
+import { useId } from "react";
 
 /** Triangular peaks: `step` px wide, crest at `top`, valley at `bottom`, filled down to `base`. */
 function zigzag(step: number, top: number, bottom: number, base: number, shift: number) {
@@ -78,36 +75,16 @@ const VARIANTS = {
 export function WaveDivider({ variant = "a" }: { variant?: keyof typeof VARIANTS }) {
   const v = VARIANTS[variant];
   const flipped = "flip" in v && v.flip;
-  const root = useRef<HTMLDivElement>(null);
   // Unique per instance: the same variant can appear several times on a page.
   const gradId = `${v.id}-${useId().replace(/:/g, "")}`;
 
-  // GSAP: each ribbon drifts sideways and swells vertically on its own loop.
-  // Paths are scaled 1.1x about the centre so the drift never exposes an edge.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<SVGPathElement>(".wave-path").forEach((el, i) => {
-        gsap.set(el, { svgOrigin: "720 70", scaleX: 1.1 });
-        gsap.to(el, {
-          x: i % 2 ? -55 : 55,
-          scaleY: i % 2 ? 0.8 : 1.2,
-          duration: 5 + i * 1.5,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
-        });
-      });
-    }, root);
-    return () => ctx.revert();
-  }, []);
+  // Ribbon motion is a CSS animation on `.wave-path` (app/globals.css).
   // z-10: the next section is also positioned and later in the DOM, so at z-0 its
   // background would paint over the lower half of the wave.
   // Height is shared through --wave-h so the negative margins always cancel it out:
   // the divider occupies no layout space and overlaps its neighbours instead.
   return (
     <div
-      ref={root}
       aria-hidden
       className={`pointer-events-none relative z-10 h-(--wave-h) w-full overflow-hidden [--wave-h:80px] sm:[--wave-h:100px] lg:[--wave-h:120px] ${
         flipped ? "-mb-(--wave-h)" : "-mt-[calc(var(--wave-h)/2)] -mb-[calc(var(--wave-h)/2)]"

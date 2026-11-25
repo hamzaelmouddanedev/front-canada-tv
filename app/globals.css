@@ -64,3 +64,39 @@
     100% { transform: translateX(0); }
   }
 }
+
+/* Hero: paragraph, buttons and stats slide up in sequence (was a GSAP stagger). */
+@keyframes hero-reveal {
+  from { opacity: 0; transform: translateY(28px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-reveal > * {
+    animation: hero-reveal 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 0.7s both;
+  }
+  .hero-reveal > :nth-child(2) { animation-delay: 0.85s; }
+  .hero-reveal > :nth-child(3) { animation-delay: 1s; }
+}
+
+/* WaveDivider ribbons: drift sideways and swell vertically, scaled 1.1x about the SVG
+   centre (720 70) so the drift never exposes an edge. Pure CSS: no JS layout reads. */
+@keyframes wave-drift-a {
+  from { transform: scale(1.1, 1); }
+  to { transform: translateX(55px) scale(1.1, 1.2); }
+}
+@keyframes wave-drift-b {
+  from { transform: scale(1.1, 1); }
+  to { transform: translateX(-55px) scale(1.1, 0.8); }
+}
+.wave-path {
+  transform-box: view-box;
+  transform-origin: 720px 70px;
+  transform: scale(1.1, 1);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wave-path {
+    animation: wave-drift-a 5s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
+  }
+  .wave-path + .wave-path {
+    animation: wave-drift-b 6.5s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
+  }
+}

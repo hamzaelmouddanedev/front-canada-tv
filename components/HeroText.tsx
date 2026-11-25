@@ -1,9 +1,21 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
-import gsap from "gsap";
+import { useLayoutEffect, useRef } from "react";
 
-/** Hero headline: typewriter loop: types, holds, erases, repeats. */
+const CARET = "3px 0 0 #5cb6d6";
+const CARET_EMPTY = "-3px 0 0 #5cb6d6";
+// type (6s) -> hold (5s) -> erase (5s) -> pause (4s) -> repeat; first run starts after 0.3s.
+const TYPE_MS = 6000;
+const HOLD_MS = 5000;
+const ERASE_MS = 5000;
+const PAUSE_MS = 4000;
+const START_MS = 300;
+
+/**
+ * Hero headline: typewriter loop: types, holds, erases, repeats.
+ * Plain timers instead of a per-frame tween: each step only touches the one or two
+ * characters whose state changes, keeping the main thread idle between steps.
+ */
 export function HeroTitle({ text, className }: { text: string; className?: string }) {
   const ref = useRef<HTMLHeadingElement>(null);
 
@@ -12,31 +24,48 @@ export function HeroTitle({ text, className }: { text: string; className?: strin
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const chars = Array.from(el.querySelectorAll<HTMLElement>(".hc"));
-    const caret = "3px 0 0 #5cb6d6";
     const len = chars.length;
-    const render = (n: number) => {
-      chars.forEach((c, k) => {
-        c.style.opacity = k < n ? "1" : "0";
-        c.style.boxShadow = k === n - 1 ? caret : "none";
-      });
-      // caret sits before the first character while the text is empty
-      if (n === 0 && chars[0]) chars[0].style.boxShadow = "-3px 0 0 #5cb6d6";
-    };
-    render(0);
+    if (!len) return;
 
-    const ctx = gsap.context(() => {
-      const state = { n: 0 };
-      const update = () => render(Math.round(state.n));
-      // type -> hold -> erase -> pause -> repeat forever
-      const tl = gsap.timeline({ repeat: -1, delay: 0.3 });
-      tl.to(state, { n: len, duration: 6, ease: "none", onUpdate: update })
-        .to(state, { n: len, duration: 5 })
-        .to(state, { n: 0, duration: 5, ease: "none", onUpdate: update })
-        .to(state, { n: 0, duration: 4 });
-    }, el);
+    let n = 0;
+    const caretAt = (count: number) => {
+      if (count > 0) chars[count - 1].style.boxShadow = CARET;
+      else chars[0].style.boxShadow = CARET_EMPTY; // caret before the first character while empty
+    };
+    const clearCaret = (count: number) => {
+      chars[Math.max(0, count - 1)].style.boxShadow = "none";
+    };
+
+    chars.forEach((c) => {
+      c.style.opacity = "0";
+      c.style.boxShadow = "none";
+    });
+    caretAt(0);
+
+    let timer = 0;
+    const step = (dir: 1 | -1) => {
+      clearCaret(n);
+      if (dir === 1) chars[n].style.opacity = "1";
+      else chars[n - 1].style.opacity = "0";
+      n += dir;
+      caretAt(n);
+    };
+    const type = () => {
+      if (n < len) {
+        step(1);
+        timer = window.setTimeout(type, TYPE_MS / len);
+      } else timer = window.setTimeout(erase, HOLD_MS);
+    };
+    const erase = () => {
+      if (n > 0) {
+        step(-1);
+        timer = window.setTimeout(erase, ERASE_MS / len);
+      } else timer = window.setTimeout(type, PAUSE_MS);
+    };
+    timer = window.setTimeout(type, START_MS);
 
     return () => {
-      ctx.revert();
+      clearTimeout(timer);
       chars.forEach((c) => {
         c.style.opacity = "";
         c.style.boxShadow = "";
@@ -58,36 +87,9 @@ export function HeroTitle({ text, className }: { text: string; className?: strin
               {c}
             </span>
           ))}
-          {i < arr.length - 1 ? "\u00A0" : ""}
+          {i < arr.length - 1 ? " " : ""}
         </span>
       ))}
     </h1>
-  );
-}
-
-/** Fades/slides a block of children in sequence (used for the hero paragraph, buttons, stats). */
-export function HeroReveal({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const ctx = gsap.context(() => {
-      gsap.from(el.children, {
-        y: 28,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        stagger: 0.15,
-        delay: 0.7,
-      });
-    }, el);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
   );
 }
