@@ -21,14 +21,16 @@ export async function Hero({ home }: { home: HomePage }) {
         loading="eager"
         fetchPriority="high"
         sizes="100vw"
-        className="-z-20 object-cover"
+        // Bottom fades out so the photo dissolves into main's page spectrum instead of ending on a hard edge.
+        className="-z-20 object-cover mask-[linear-gradient(180deg,#000_70%,transparent)]"
       />
-      <div className="absolute inset-0 -z-10 bg-linear-to-r from-bg/80 via-bg/40 to-transparent" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_20%_50%,rgb(0_147_213/0.18)_0%,transparent_60%)]" />
+      {/* Readability scrim tinted with the first spectrum stops (scarlet → ruby), matching the navbar above. */}
+      <div className="absolute inset-0 -z-10 bg-linear-to-r from-flow-0/90 via-flow-1/55 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-linear-to-b from-scarlet/12 via-transparent to-transparent" />
 
       <div className="relative z-2 ml-[8%] max-w-[760px] px-8 max-md:ml-0 max-[480px]:px-[1.2rem]">
-        <div className="mb-[1.8rem] inline-flex items-center gap-2 rounded-full border border-teal/35 bg-teal/15 px-4 py-[0.4rem] text-[0.82rem] font-semibold text-teal-light">
-          <span className="size-[7px] animate-pulse-dot rounded-full bg-teal" />
+        <div className="mb-[1.8rem] inline-flex items-center gap-2 rounded-full border border-lagoon/35 bg-harbor/25 px-4 py-[0.4rem] text-[0.82rem] font-semibold text-ice">
+          <span className="size-[7px] animate-pulse-dot rounded-full bg-flamingo" />
           {ui.hero.badge}
         </div>
 
@@ -59,7 +61,7 @@ export async function Hero({ home }: { home: HomePage }) {
         <div className="mt-12 flex gap-10 border-t border-white/10 pt-8 max-md:gap-6 max-[480px]:flex-wrap">
           {ui.hero.stats.map(([num, label]) => (
             <div className="text-center" key={label}>
-              <span className="block text-[1.8rem] font-black text-teal-light">{num}</span>
+              <span className="block text-[1.8rem] font-black text-vivid">{num}</span>
               <span className="text-[0.8rem] font-medium text-muted">{label}</span>
             </div>
           ))}

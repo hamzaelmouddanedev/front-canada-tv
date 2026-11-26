@@ -15,17 +15,17 @@ export function FaqAccordion({ items }: { items: Item[] }) {
         const open = openIndex === i;
         const panelId = `${baseId}-panel-${i}`;
         return (
-          <div key={i} className={`mb-[0.8rem] overflow-hidden rounded-[14px] border transition-colors duration-200 ${open ? "border-teal/40" : "border-teal/20"}`}>
+          <div key={i} className={`mb-[0.8rem] overflow-hidden rounded-[14px] border transition-colors duration-200 ${open ? "border-lagoon/45" : "border-lagoon/20"}`}>
             <h3>
               <button
                 type="button"
-                className={`flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-[1.2rem] text-left text-[0.98rem] font-semibold transition-colors duration-200 hover:bg-teal/8 ${open ? "bg-teal/8 text-teal-light" : "bg-crimson/5 text-fg"}`}
+                className={`flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-[1.2rem] text-left text-[0.98rem] font-semibold transition-colors duration-200 hover:bg-lagoon/8 ${open ? "bg-lagoon/8 text-ice" : "bg-harbor/10 text-fg"}`}
                 aria-expanded={open}
                 aria-controls={panelId}
                 onClick={() => setOpenIndex(open ? null : i)}
               >
                 <span>{item.question}</span>
-                <span className={`flex size-7 min-w-7 items-center justify-center rounded-full border border-teal/20 text-xs text-teal transition duration-300 ${open ? "rotate-180 bg-teal/15" : ""}`} aria-hidden>▼</span>
+                <span className={`flex size-7 min-w-7 items-center justify-center rounded-full border border-lagoon/25 text-xs text-lagoon transition duration-300 ${open ? "rotate-180 bg-lagoon/15" : ""}`} aria-hidden>▼</span>
               </button>
             </h3>
             <div id={panelId} role="region" className={`grid transition-[grid-template-rows] duration-350 ease-in-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`} aria-hidden={!open}>

@@ -61,7 +61,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           menuLabel={ui.menu}
           languageLabel={ui.language}
         />
-        <main className="flex-1">{children}</main>
+        {/* bg-flow: one spectrum for the whole page; sections stay transparent so it reads as continuous. */}
+        <main className="flex-1 bg-flow">{children}</main>
         <ScrollToTop label={ui.backToTop} />
         <Footer footer={footer} contact={contact} nav={nav} year={year} />
       </body>

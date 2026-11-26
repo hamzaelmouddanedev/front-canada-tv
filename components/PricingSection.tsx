@@ -36,7 +36,14 @@ export function toPlanCard(plan: Plan, locale: Locale, featuredId?: string): Pla
     imageUrl: hasImage(plan.image) ? urlFor(plan.image).width(640).height(400).fit("crop").url() : undefined,
     salesCount: plan.salesCount,
     featured: plan._id === featuredId,
+    yearly: isYearly(plan),
   };
+}
+
+/** 12-month plan (detected from its slug or EN/FR title, e.g. "12 Months" / "12 mois"). */
+function isYearly(plan: Plan) {
+  const text = `${plan.slug ?? ""} ${t(plan.title, "en")} ${t(plan.title, "fr")}`;
+  return /(^|\D)12(\D|$)|year|annual|\ban\b|annuel/i.test(text);
 }
 
 /** The best-selling plan gets the "featured" treatment from the design. */
@@ -62,7 +69,7 @@ export async function PricingSection({ plans, section, showHeader = true, leaves
   };
 
   return (
-    <section id="plans" className={`${sectionPadding} relative isolate scroll-mt-20 overflow-hidden bg-bg`}>
+    <section id="plans" className={`${sectionPadding} relative isolate scroll-mt-20 overflow-hidden`}>
       {leaves && (
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           <MapleLeafBackground />

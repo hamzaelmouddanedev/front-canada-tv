@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ChannelsSlider } from "@/components/ChannelsSlider";
 import { FaqSection } from "@/components/FaqSection";
+import { FeaturesSection } from "@/components/FeaturesSection";
 import { Hero } from "@/components/Hero";
 import { InfoSections } from "@/components/InfoSections";
 import { MoviesSlider } from "@/components/MoviesSlider";
@@ -41,7 +42,8 @@ export default async function HomePage() {
       {jsonLd["@graph"].length > 0 && <JsonLd data={jsonLd} />}
       <Hero home={home} />
       <ChannelsSlider />
-      <InfoSections sections={infoSections} leaves />
+      <InfoSections sections={infoSections} leaves mockup />
+      <FeaturesSection />
       <WaveDivider />
       <MoviesSlider />
       <WaveDivider variant="b" />

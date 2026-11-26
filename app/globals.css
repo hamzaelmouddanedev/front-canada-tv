@@ -1,24 +1,63 @@
 @import "tailwindcss";
 
-/* Design tokens, ported from desing_exsample/iptv-site.html */
+/* Design tokens. Colour system: four palettes (see :root gradients below).
+   - Generic gradient  scarlet → ruby → orchid → amethyst → cobalt → deep: the page spectrum (bg-flow).
+   - Matching gradient flamingo → magenta → periwinkle → azure → cerulean: highlights (bg-vivid, text-vivid).
+   - Spot palette      peach, cream, lagoon: small accents and decorative details.
+   - Twisted spot      lagoon, ice, harbor: secondary surfaces, borders, supporting UI. */
 :root {
   --nav-h: 72px;
   color-scheme: dark;
+
+  --gradient-spectrum: linear-gradient(120deg, #ff0000 0%, #ee005f 20%, #b62a8f 40%, #6d4b9a 60%, #325082 80%, #2f4858 100%);
+  --gradient-vivid: linear-gradient(120deg, #ff006f 0%, #dc00c9 25%, #4a62ff 50%, #0082ff 75%, #008be4 100%);
+  /* Bridge between both palettes; every stop keeps white text above 4.3:1, so it carries buttons/badges. */
+  --gradient-cta: linear-gradient(120deg, #ee005f 0%, #b62a8f 35%, #6d4b9a 70%, #4a62ff 100%);
+  --gradient-spot: linear-gradient(90deg, #e8a392, #5ab7d4);
 }
 
 @theme inline {
   --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
 }
 
-@theme {
-  --color-bg: #0d0810;
-  --color-fg: #f0e8ea;
-  --color-muted: #bfa5a4;
-  --color-crimson: #dc143c;
-  --color-teal: #0093d5;
-  --color-teal-light: #5cb6d6;
-  --color-violet: #5c4b8a;
-  --color-steel: #344e76;
+@theme static {
+  /* Base */
+  --color-bg: #0b0d16;
+  --color-fg: #f4eef1;
+  --color-muted: #b9b6c8;
+
+  /* Generic gradient */
+  --color-scarlet: #ff0000;
+  --color-ruby: #ee005f;
+  --color-orchid: #b62a8f;
+  --color-amethyst: #6d4b9a;
+  --color-cobalt: #325082;
+  --color-deep: #2f4858;
+
+  /* Matching gradient */
+  --color-flamingo: #ff006f;
+  --color-magenta: #dc00c9;
+  --color-periwinkle: #4a62ff;
+  --color-azure: #0082ff;
+  --color-cerulean: #008be4;
+
+  /* Spot + twisted spot */
+  --color-peach: #e8a392;
+  --color-cream: #ffe6d9;
+  --color-lagoon: #5ab7d4;
+  --color-ice: #c2f9ff;
+  --color-harbor: #487e91;
+
+  /* Page spectrum: each generic stop as a dark tint of bg. main runs flow-0 → flow-5 top to bottom,
+     the footer continues flow-5 → bg, so neighbouring sections always share their boundary colour. */
+  --color-flow-0: color-mix(in oklab, var(--color-scarlet) 14%, var(--color-bg));
+  --color-flow-1: color-mix(in oklab, var(--color-ruby) 14%, var(--color-bg));
+  --color-flow-2: color-mix(in oklab, var(--color-orchid) 15%, var(--color-bg));
+  --color-flow-3: color-mix(in oklab, var(--color-amethyst) 18%, var(--color-bg));
+  --color-flow-4: color-mix(in oklab, var(--color-cobalt) 22%, var(--color-bg));
+  --color-flow-5: color-mix(in oklab, var(--color-deep) 32%, var(--color-bg));
+  /* Opaque fill behind gradient borders (border-vivid). */
+  --color-surface: color-mix(in oklab, var(--color-amethyst) 16%, var(--color-bg));
 
   --animate-pulse-dot: pulse-dot 2s infinite;
   --animate-hue-text: hue-text 12s ease-in-out infinite;
@@ -41,15 +80,15 @@
   }
   @keyframes hue-text {
     0%, 100% { color: var(--color-fg); }
-    25% { color: var(--color-teal-light); }
-    50% { color: var(--color-crimson); }
-    75% { color: var(--color-violet); }
+    25% { color: var(--color-ice); }
+    50% { color: var(--color-peach); }
+    75% { color: var(--color-lagoon); }
   }
   @keyframes word-hue {
-    0%, 100% { color: var(--color-crimson); }
-    25% { color: var(--color-teal-light); }
-    50% { color: var(--color-violet); }
-    75% { color: var(--color-teal); }
+    0%, 100% { color: var(--color-flamingo); }
+    25% { color: var(--color-lagoon); }
+    50% { color: var(--color-peach); }
+    75% { color: var(--color-ice); }
   }
   @keyframes rainbow-shift {
     0%, 100% { background-position: 0% 50%; }
@@ -62,6 +101,72 @@
   @keyframes scroll-rtl {
     0% { transform: translateX(-50%); }
     100% { transform: translateX(0); }
+  }
+}
+
+/* ---- Gradient utilities ---- */
+
+/* The page-long spectrum painted on <main>. */
+@utility bg-flow {
+  background-color: var(--color-bg);
+  background-image: linear-gradient(
+    180deg,
+    var(--color-flow-0) 0%,
+    var(--color-flow-1) 18%,
+    var(--color-flow-2) 38%,
+    var(--color-flow-3) 58%,
+    var(--color-flow-4) 80%,
+    var(--color-flow-5) 100%
+  );
+}
+@utility bg-spectrum {
+  background-image: var(--gradient-spectrum);
+}
+@utility bg-vivid {
+  background-image: var(--gradient-vivid);
+}
+/* Buttons/badges: 200% wide so hover can slide toward the cooler end. */
+@utility bg-cta {
+  background-image: var(--gradient-cta);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+}
+@utility text-vivid {
+  background-image: var(--gradient-vivid);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility text-spot {
+  background-image: var(--gradient-spot);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* 1px gradient border on an opaque surface (set --fill to change the inside colour). */
+@utility border-vivid {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--fill, var(--color-surface)), var(--fill, var(--color-surface))) padding-box,
+    var(--gradient-vivid) border-box;
+}
+
+/* 12-month plan card: 2px gold → peach → flamingo gradient border on a warm fill. */
+@utility border-gold {
+  border-color: transparent;
+  background:
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-peach) 16%, var(--color-bg)), var(--color-surface)) padding-box,
+    linear-gradient(135deg, #ffd27a 0%, var(--color-peach) 35%, var(--color-flamingo) 70%, #ffd27a 100%) border-box;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-lagoon);
+    outline-offset: 3px;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-flamingo) 40%, transparent);
+    color: #fff;
   }
 }
 
@@ -99,4 +204,123 @@
   .wave-path + .wave-path {
     animation: wave-drift-b 6.5s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
   }
+}
+
+/* ---- DeviceMockup (home About section): colour tokens, tilt, motion ---- */
+.mockup {
+  --mk-bg: #0b0f1a;
+  --mk-pink: #e11d74;
+  --mk-purple: #6d28d9;
+  --mk-blue: #1e40af;
+  --mk-red: #e11d48;
+  --mk-cyan: #38bdf8;
+  --mk-green: #22c55e;
+  --mk-indigo: #6366f1;
+  --mk-glass: rgba(20, 22, 35, 0.75);
+  --mk-line: rgba(255, 255, 255, 0.08);
+  --mk-grad: linear-gradient(110deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+}
+.mockup-tilt {
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.mockup-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.mockup-glow {
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 0.08), 0 10px 30px -4px rgb(225 29 116 / 0.6), 0 0 40px -6px rgb(59 130 246 / 0.6);
+}
+.mockup-progress {
+  position: relative;
+  transition: width 0.7s ease;
+}
+.mockup-progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  background-position: -100% 0;
+}
+.mockup-progress[data-paused]::after { animation-play-state: paused; }
+@keyframes mockup-in {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+}
+@keyframes mockup-bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+@keyframes mockup-fade {
+  from { opacity: 0; transform: translateY(10px); }
+}
+@keyframes mockup-ping {
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes mockup-shimmer {
+  to { background-position: 200% 0; }
+}
+@keyframes mockup-nudge {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 5px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mockup:not([data-in]) .mockup-in { opacity: 0; }
+  .mockup[data-in] .mockup-in {
+    animation: mockup-in 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) var(--d, 0s) both;
+  }
+  .mockup-bob { animation: mockup-bob var(--bob-d, 6s) ease-in-out infinite; }
+  .mockup-fade { animation: mockup-fade 0.6s ease both; }
+  .mockup-ping { animation: mockup-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+  .mockup-progress::after { animation: mockup-shimmer 2.8s ease-in-out infinite; }
+  .mockup-nudge { animation: mockup-nudge 2.2s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mockup-tilt { transform: none; }
+}
+
+/* ---- FeaturesSection: per-card --accent drives every hover style ---- */
+.feature-card {
+  --accent: var(--color-lagoon);
+  transition: translate 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+}
+/* Mouse-following spotlight (--x/--y set by FeaturesGrid). */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(360px circle at var(--x, 50%) var(--y, 0%), color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+  transition: opacity 300ms ease;
+}
+.feature-card > * { position: relative; z-index: 1; }
+.feature-icon-box { transition: background-color 300ms ease, border-color 300ms ease; }
+.feature-icon { transition: transform 300ms ease; }
+.feature-card:hover {
+  translate: 0 -6px;
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: 0 18px 40px -16px color-mix(in srgb, var(--accent) 35%, transparent), 0 0 32px -12px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.feature-card:hover::before { opacity: 1; }
+.feature-card:hover .feature-icon-box {
+  background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.feature-card:hover .feature-icon { transform: scale(1.1); }
+
+@keyframes feature-in {
+  from { opacity: 0; transform: translateY(20px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .features-grid:not([data-in]) .feature-card { opacity: 0; }
+  .features-grid[data-in] .feature-card {
+    animation: feature-in 0.6s cubic-bezier(0.215, 0.61, 0.355, 1) calc(var(--i, 0) * 80ms) both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-card, .feature-card::before, .feature-icon-box, .feature-icon { transition: none; }
+  .feature-card:hover { translate: none; }
+  .feature-card:hover .feature-icon { transform: none; }
 }

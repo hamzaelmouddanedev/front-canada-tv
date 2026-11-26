@@ -45,7 +45,7 @@ export function PlanSlider({ children, prev, next }: { children: React.ReactNode
 
 
   const arrow =
-    "absolute top-1/2 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-teal/40 bg-bg/90 text-xl text-teal transition hover:scale-110 hover:bg-teal hover:text-white";
+    "absolute top-1/2 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-lagoon/40 bg-bg/90 text-xl text-lagoon transition hover:scale-110 hover:bg-lagoon hover:text-bg";
 
   return (
     <div

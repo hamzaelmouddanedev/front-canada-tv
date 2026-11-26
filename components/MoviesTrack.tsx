@@ -69,7 +69,8 @@ export function MoviesTrack({ movies }: { movies: Movie[] }) {
 
   return (
     <>
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    {/* Blurred backdrop, masked top and bottom so it fades into the page spectrum. */}
+    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden mask-[linear-gradient(180deg,transparent,#000_30%,#000_70%,transparent)]" aria-hidden="true">
       {movies.map((m, i) => (
         <Image
           key={m.file}
@@ -80,9 +81,9 @@ export function MoviesTrack({ movies }: { movies: Movie[] }) {
           className={`scale-125 object-cover blur-2xl transition-opacity duration-700 ${i === active ? "opacity-45" : "opacity-0"}`}
         />
       ))}
-      <div className="absolute inset-0 bg-linear-to-b from-bg via-bg/30 to-bg" />
+      <div className="absolute inset-0 bg-bg/30" />
     </div>
-    <div ref={wrap} className="relative overflow-x-clip before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-20 before:w-30 before:bg-linear-to-r before:from-bg before:to-transparent after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:z-20 after:w-30 after:bg-linear-to-l after:from-bg after:to-transparent">
+    <div ref={wrap} className="relative overflow-x-clip mask-[linear-gradient(90deg,transparent,#000_120px,#000_calc(100%-120px),transparent)]">
       <div className="flex w-max animate-scroll-rtl [animation-duration:40s] gap-5 py-12 hover:[animation-play-state:paused] motion-reduce:animate-none">
         {loop.map((m, i) => (
           <figure
@@ -93,7 +94,7 @@ export function MoviesTrack({ movies }: { movies: Movie[] }) {
             key={i}
             aria-hidden={i >= movies.length}
           >
-            <div className="relative aspect-[2/3] rounded-[14px] border border-teal/20 bg-white/4 shadow-[0_10px_30px_rgb(0_0_0/0.35)] transition-[border-color,box-shadow] duration-300 group-hover:border-teal/50 group-hover:shadow-[0_16px_40px_rgb(220_20_60/0.25)]">
+            <div className="relative aspect-[2/3] rounded-[14px] border border-lagoon/20 bg-white/4 shadow-[0_10px_30px_rgb(0_0_0/0.35)] transition-colors duration-300 group-hover:border-flamingo/60">
               <Image
                 src={`/movies/${encodeURIComponent(m.file)}`}
                 alt={i < movies.length ? m.alt : ""}

@@ -8,7 +8,7 @@ import { getI18n } from "@/lib/locale";
 import { getRouteIndex, type RouteEntry, type Section } from "@/lib/routes";
 import { buildMetadata } from "@/lib/seo";
 import { formatPrice } from "@/lib/site";
-import { chip, section } from "@/lib/ui";
+import { chip, panelCard, section } from "@/lib/ui";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, ui } = await getI18n();
@@ -50,10 +50,10 @@ export default async function SitemapPage() {
               <nav
                 key={key}
                 aria-labelledby={`sitemap-${key}`}
-                className="rounded-[20px] border border-teal/20 bg-crimson/5 p-7 max-[480px]:px-[1.2rem] max-[480px]:py-6"
+                className={panelCard}
               >
                 <h2 id={`sitemap-${key}`} className="mb-5 flex items-center gap-3 text-[1.1rem] font-extrabold text-white">
-                  <span className="flex size-9 items-center justify-center rounded-[10px] bg-linear-135 from-crimson to-teal text-base" aria-hidden>
+                  <span className="flex size-9 items-center justify-center rounded-[10px] bg-cta text-base" aria-hidden>
                     {icon}
                   </span>
                   {ui.sitemap[key]}
@@ -69,9 +69,9 @@ export default async function SitemapPage() {
                         <Link
                           href={localePath(target, entry.path)}
                           hrefLang={target}
-                          className="group flex items-baseline gap-3 rounded-xl px-3 py-[0.55rem] text-[0.92rem] text-fg transition-colors duration-200 hover:bg-teal/8 hover:text-teal-light"
+                          className="group flex items-baseline gap-3 rounded-xl px-3 py-[0.55rem] text-[0.92rem] text-fg transition-colors duration-200 hover:bg-lagoon/8 hover:text-ice"
                         >
-                          <span className="text-teal transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden>
+                          <span className="text-lagoon transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden>
                             ›
                           </span>
                           <span className="min-w-0 flex-1 break-words">{label(entry)}</span>

@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
     loader: "custom",
     loaderFile: "./lib/image-loader.ts",
     // Object form without `search`: Sanity image URLs always carry query params (?w=…&auto=format).
-    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
+    ],
   },
   partialPrefetching: true,
   turbopack: {

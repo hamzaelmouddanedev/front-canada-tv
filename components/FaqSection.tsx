@@ -10,7 +10,7 @@ export async function FaqSection({ faq, showHeader = true }: { faq: FaqPage; sho
     .filter((q) => q.question);
 
   return (
-    <section id="faq" className={`${section} bg-linear-to-b from-bg to-steel/6`}>
+    <section id="faq" className={section}>
       <div className="mx-auto max-w-[760px]">
         {showHeader ? (
           <div className={sectionHeadCenter}>

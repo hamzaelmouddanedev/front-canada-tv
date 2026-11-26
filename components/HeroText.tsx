@@ -2,8 +2,8 @@
 
 import { useLayoutEffect, useRef } from "react";
 
-const CARET = "3px 0 0 #5cb6d6";
-const CARET_EMPTY = "-3px 0 0 #5cb6d6";
+const CARET = "3px 0 0 var(--color-lagoon)";
+const CARET_EMPTY = "-3px 0 0 var(--color-lagoon)";
 // type (6s) -> hold (5s) -> erase (5s) -> pause (4s) -> repeat; first run starts after 0.3s.
 const TYPE_MS = 6000;
 const HOLD_MS = 5000;

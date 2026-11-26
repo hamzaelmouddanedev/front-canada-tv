@@ -52,8 +52,8 @@ export default function PostPage({ params }: PageProps<"/[lang]/blog/[slug]">) {
 function PostSkeleton() {
   return (
     <div aria-busy="true">
-      <div className="mb-6 h-10 w-3/4 animate-pulse rounded-lg bg-teal/10" />
-      <div className="aspect-video animate-pulse rounded-[20px] border border-teal/20" />
+      <div className="mb-6 h-10 w-3/4 animate-pulse rounded-lg bg-lagoon/10" />
+      <div className="aspect-video animate-pulse rounded-[20px] border border-lagoon/20" />
     </div>
   );
 }
@@ -104,7 +104,7 @@ async function PostDetails({ params }: Pick<PageProps<"/[lang]/blog/[slug]">, "p
         </p>
       )}
       {cover && (
-        <div className="relative mb-10 aspect-video overflow-hidden rounded-[20px] border border-teal/20">
+        <div className="relative mb-10 aspect-video overflow-hidden rounded-[20px] border border-lagoon/20">
           <Image src={cover} alt={altText(ui.alt.post, title)} fill priority sizes="(max-width: 800px) 100vw, 760px" />
         </div>
       )}

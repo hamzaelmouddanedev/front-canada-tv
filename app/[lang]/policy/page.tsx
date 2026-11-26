@@ -8,7 +8,7 @@ import { ORG_ID, WEBSITE_ID } from "@/lib/jsonld";
 import { getI18n } from "@/lib/locale";
 import { siteUrl } from "@/lib/sanity/env";
 import { buildMetadata } from "@/lib/seo";
-import { btnPrimary, proseText, section } from "@/lib/ui";
+import { btnPrimary, panelCard, proseText, section } from "@/lib/ui";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale, ui } = await getI18n();
@@ -39,7 +39,7 @@ export default async function PolicyPage() {
       <section className={section}>
         <div className="mx-auto grid max-w-[820px] gap-6">
           {ui.policy.sections.map(([title, text]) => (
-            <article key={title} className="rounded-[20px] border border-teal/20 bg-crimson/5 p-7 max-[480px]:px-[1.2rem] max-[480px]:py-6">
+            <article key={title} className={panelCard}>
               <h2 className="mb-3 text-[1.2rem] font-extrabold text-white">{title}</h2>
               <p className={proseText}>{text}</p>
             </article>

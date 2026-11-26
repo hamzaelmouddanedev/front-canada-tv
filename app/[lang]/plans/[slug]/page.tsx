@@ -45,8 +45,8 @@ export default function PlanPage({ params }: PageProps<"/[lang]/plans/[slug]">) 
 function PlanSkeleton() {
   return (
     <div className="mx-auto grid max-w-[1100px] grid-cols-[1.1fr_1fr] items-start gap-12 max-lg:grid-cols-1" aria-busy="true">
-      <div className="aspect-[16/10] animate-pulse rounded-[20px] border border-teal/20" />
-      <div className="h-[420px] animate-pulse rounded-[20px] border border-teal/20" />
+      <div className="aspect-[16/10] animate-pulse rounded-[20px] border border-lagoon/20" />
+      <div className="h-[420px] animate-pulse rounded-[20px] border border-lagoon/20" />
     </div>
   );
 }
@@ -68,7 +68,7 @@ async function PlanDetails({ params }: Pick<PageProps<"/[lang]/plans/[slug]">, "
             {ui.order.back}
           </Link>
           {card.imageUrl && (
-            <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-[20px] border border-teal/20">
+            <div className="relative mb-8 aspect-[16/10] overflow-hidden rounded-[20px] border border-lagoon/20">
               <Image src={card.imageUrl} alt={card.imageAlt} fill priority sizes="(max-width: 1024px) 100vw, 560px" />
             </div>
           )}

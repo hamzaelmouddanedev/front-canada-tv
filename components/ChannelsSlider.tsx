@@ -24,8 +24,9 @@ export async function ChannelsSlider() {
   // The list is rendered twice so the -50% translate loops seamlessly.
   const loop = [...CHANNELS, ...CHANNELS];
   return (
-    <div id="brands" aria-label={ui.channelsLabel} className="relative z-10 overflow-hidden border-y border-teal/20 bg-crimson/4 py-10">
-      <div className="relative overflow-hidden before:pointer-events-none before:absolute before:inset-y-0 before:right-0 before:z-2 before:w-20 before:bg-linear-to-l before:from-bg before:to-transparent after:pointer-events-none after:absolute after:inset-y-0 after:left-0 after:z-2 after:w-20 after:bg-linear-to-r after:from-bg after:to-transparent">
+    <div id="brands" aria-label={ui.channelsLabel} className="relative z-10 overflow-hidden border-y border-lagoon/15 bg-harbor/10 py-10">
+      {/* Edges fade via a mask (not a bg-coloured overlay) so they blend into whatever spectrum colour is behind. */}
+      <div className="relative overflow-hidden mask-[linear-gradient(90deg,transparent,#000_80px,#000_calc(100%-80px),transparent)]">
         <div className="flex w-max animate-scroll-ltr gap-12 hover:[animation-play-state:paused] motion-reduce:animate-none">
           {loop.map((c, i) => (
             <div className="group flex shrink-0 flex-col items-center gap-2 px-4 py-2 transition-transform duration-200 hover:scale-110" key={i} aria-hidden={i >= CHANNELS.length}>
@@ -38,7 +39,7 @@ export async function ChannelsSlider() {
                   className="object-cover"
                 />
               </div>
-              <span className="text-xs font-semibold tracking-[0.03em] text-muted transition-colors duration-300 group-hover:text-teal">{c.name}</span>
+              <span className="text-xs font-semibold tracking-[0.03em] text-muted transition-colors duration-300 group-hover:text-lagoon">{c.name}</span>
             </div>
           ))}
         </div>

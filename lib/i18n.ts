@@ -83,6 +83,19 @@ const dictionary = {
       title: "An Entertainment Experience Like No Other",
       imageAlt: "IPTV Canada streaming service on Smart TV, phone and tablet",
     },
+    features: {
+      label: "Why Choose Us",
+      title: "Everything You Need in One Subscription",
+      sub: "Live TV, movies, sports and series in stunning quality, on every screen you own.",
+      items: [
+        { stat: "18,000+ Channels", title: "Live TV Channels", text: "Access thousands of international, national, news, documentary, and entertainment networks from the US, UK, Europe, Middle East, and worldwide." },
+        { stat: "60,000+ VOD", title: "Movies & TV Series", text: "Binge the latest box-office premieres, trending series, and classic cinema on demand with multi-language subtitles and Dolby Surround sound." },
+        { stat: "PPV & 60 FPS", title: "Live Sports", text: "Never miss a goal or knockout. Watch top football leagues, Formula 1, UFC PPV events, NBA, and NFL in smooth 60fps feeds." },
+        { stat: "4K UHD / HEVC", title: "HD & 4K Streaming", text: "Powered by H.265 HEVC compression and adaptive bitrate streaming so you enjoy razor-sharp 4K, Full HD, and HD playback on any internet speed." },
+        { stat: "All Platforms", title: "Multi-Device Compatibility", text: "Stream effortlessly across Samsung & LG Smart TVs, Amazon Firestick, Apple TV, Android boxes, iOS, Windows, Mac, and MAG portals." },
+        { stat: "EPG + Catch-Up", title: "24/7 Entertainment", text: "Non-stop round-the-clock streaming complete with a real-time Electronic Program Guide (EPG), 7-day TV catch-up, and dedicated 24/7 assistance." },
+      ],
+    },
     plans: {
       label: "Plans",
       title: "Choose the Plan That Fits You",
@@ -241,6 +254,19 @@ const dictionary = {
       label: "À propos",
       title: "Une expérience de divertissement unique",
       imageAlt: "Service IPTV Canada sur Smart TV, téléphone et tablette",
+    },
+    features: {
+      label: "Pourquoi nous choisir",
+      title: "Tout ce qu’il vous faut dans un seul abonnement",
+      sub: "Télé en direct, films, sports et séries en qualité exceptionnelle, sur tous vos écrans.",
+      items: [
+        { stat: "18 000+ chaînes", title: "Chaînes de télé en direct", text: "Accédez à des milliers de chaînes internationales et nationales — nouvelles, documentaires et divertissement — des États-Unis, du Royaume-Uni, d’Europe, du Moyen-Orient et du monde entier." },
+        { stat: "60 000+ VOD", title: "Films et séries", text: "Dévorez les dernières sorties en salle, les séries du moment et les classiques du cinéma sur demande, avec sous-titres multilingues et son Dolby Surround." },
+        { stat: "PPV et 60 FPS", title: "Sports en direct", text: "Ne manquez aucun but ni aucun K.-O. Regardez les grands championnats de soccer, la Formule 1, les événements UFC à la carte, la NBA et la NFL en flux fluides à 60 i/s." },
+        { stat: "4K UHD / HEVC", title: "Diffusion HD et 4K", text: "Grâce à la compression H.265 HEVC et au débit adaptatif, profitez d’une image 4K, Full HD et HD d’une netteté remarquable, quelle que soit votre connexion." },
+        { stat: "Toutes plateformes", title: "Compatible multi-appareils", text: "Regardez sans effort sur les téléviseurs intelligents Samsung et LG, Amazon Firestick, Apple TV, boîtiers Android, iOS, Windows, Mac et portails MAG." },
+        { stat: "EPG + rattrapage", title: "Divertissement 24 h/24, 7 j/7", text: "Du contenu en continu, jour et nuit, avec un guide électronique des programmes (EPG) en temps réel, la télé de rattrapage sur 7 jours et une assistance dédiée 24/7." },
+      ],
     },
     plans: {
       label: "Forfaits",

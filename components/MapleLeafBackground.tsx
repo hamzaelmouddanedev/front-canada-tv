@@ -29,7 +29,7 @@ export function MapleLeafBackground() {
           }}
         >
           <MapleLeaf
-            className="size-full animate-word-hue motion-reduce:animate-none drop-shadow-[0_0_24px_currentColor]"
+            className="size-full animate-word-hue motion-reduce:animate-none"
             style={{ animationDelay: l.hueDelay, rotate: `${l.tilt}deg` }}
           />
         </div>

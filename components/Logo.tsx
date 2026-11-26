@@ -22,7 +22,7 @@ export function Logo({ variant = "nav", href }: { variant?: "nav" | "footer"; hr
         <span className="w-1/4 bg-[#d52b1e]" />
       </span>
       <span className={`font-extrabold tracking-[-0.5px] text-white ${s.text}`}>
-        IPTV<span className="text-teal">Pro</span>
+        IPTV<span className="text-vivid">Pro</span>
       </span>
     </Link>
   );
